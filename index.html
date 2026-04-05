@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sahil Ahmed · Pr0fessor SnApe · Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Syne:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#030711;
+  --s1:#0a1628;
+  --s2:#0f1f3d;
+  --cyan:#00d4ff;
+  --cyan2:#00aacc;
+  --violet:#a855f7;
+  --violet2:#7c3aed;
+  --orange:#ff6b35;
+  --green:#39ff14;
+  --txt:#e2e8f0;
+  --muted:#4a5568;
+  --border:rgba(0,212,255,0.14);
+  --bh:rgba(0,212,255,0.4);
+  --gc:0 0 24px rgba(0,212,255,0.35);
+  --gv:0 0 24px rgba(168,85,247,0.35);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{position:fixed;width:22px;height:22px;border:1.5px solid var(--cyan);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s;mix-blend-mode:difference}
+#cur2{position:fixed;width:5px;height:5px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%)}
+body:has(a:hover,button:hover,.clickable:hover) #cur{width:36px;height:36px;border-color:var(--violet)}
+
+/* CANVAS BG */
+#bg-canvas{position:fixed;inset:0;z-index:0;opacity:1}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:1}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(3,7,17,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Orbitron',monospace;font-size:15px;font-weight:800;color:var(--cyan);letter-spacing:2px;text-shadow:0 0 20px rgba(0,212,255,.5)}
+.nav-logo span{color:var(--violet)}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:2px;text-transform:uppercase;transition:color .25s;font-weight:600}
+.nav-links a:hover{color:var(--cyan)}
+.nav-cta{padding:8px 20px;border:1px solid var(--cyan);color:var(--cyan);font-family:'Orbitron',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:all .25s;background:transparent}
+.nav-cta:hover{background:rgba(0,212,255,.1);box-shadow:var(--gc)}
+
+/* SECTIONS */
+.wrap{position:relative;z-index:2;margin:0}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;padding:80px 80px 60px;position:relative;overflow:hidden}
+.hero-bg-glow{position:absolute;top:-200px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(168,85,247,.1) 0%,transparent 70%);pointer-events:none}
+.hero-bg-glow2{position:absolute;bottom:-200px;left:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,212,255,.07) 0%,transparent 70%);pointer-events:none}
+
+.hero-left{position:relative}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.h-dot{width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.h-eye-txt{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);font-weight:600}
+.hero-name{font-family:'Orbitron',monospace;font-size:clamp(38px,5vw,68px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:8px}
+.hero-name .hl{color:var(--cyan);text-shadow:0 0 30px rgba(0,212,255,.5)}
+.hero-alias{font-family:'Space Mono',monospace;font-size:14px;color:var(--violet);letter-spacing:3px;margin-bottom:28px;text-shadow:0 0 15px rgba(168,85,247,.5)}
+.hero-bio{font-size:15px;line-height:1.85;color:rgba(226,232,240,.6);max-width:430px;margin-bottom:36px;font-weight:300}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.btn-p{padding:13px 28px;border:1px solid var(--cyan);color:var(--bg);background:var(--cyan);font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;border-radius:2px}
+.btn-p:hover{background:transparent;color:var(--cyan);box-shadow:var(--gc)}
+.btn-o{padding:13px 28px;border:1px solid rgba(168,85,247,.5);color:var(--violet);background:transparent;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;border-radius:2px}
+.btn-o:hover{border-color:var(--violet);background:rgba(168,85,247,.08);box-shadow:var(--gv)}
+
+.hero-stats{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;width:fit-content;background:rgba(10,22,40,.6);backdrop-filter:blur(10px)}
+.h-stat{padding:18px 28px;text-align:center;border-right:1px solid var(--border);position:relative}
+.h-stat:last-child{border-right:none}
+.h-stat-n{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--cyan);text-shadow:0 0 15px rgba(0,212,255,.4)}
+.h-stat-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px}
+
+/* LAPTOP */
+.hero-right{display:flex;align-items:center;justify-content:center;position:relative}
+.laptop-float{animation:float 5s ease-in-out infinite;cursor:pointer;position:relative}
+@keyframes float{0%,100%{transform:translateY(0) rotateY(-5deg)}50%{transform:translateY(-16px) rotateY(5deg)}}
+.laptop-float:hover{animation:none;transform:rotateY(0deg) scale(1.03)}
+.laptop-wrap{perspective:1000px;width:420px;height:300px}
+.laptop-body{position:relative;width:420px;transform-style:preserve-3d}
+.laptop-lid{width:420px;height:280px;transform-origin:bottom center;transform:rotateX(-12deg);transition:transform 1s cubic-bezier(.4,0,.2,1);position:relative}
+.laptop-lid.open{transform:rotateX(-105deg)}
+.l-screen{width:420px;height:275px;background:#000;border:2px solid rgba(0,212,255,.3);border-radius:12px 12px 0 0;overflow:hidden;position:relative;box-shadow:0 -10px 60px rgba(0,212,255,.15),inset 0 0 60px rgba(0,0,0,.9)}
+.l-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:#0a0a0a;border-radius:50%;border:1px solid rgba(0,212,255,.2);z-index:5}
+.l-glare{position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%);pointer-events:none;z-index:4}
+.l-bezel{position:absolute;inset:0;border-radius:12px;border:6px solid #0d0d0d;pointer-events:none;z-index:3}
+/* Screen content BEFORE click */
+.l-content{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.l-logo-ring{width:60px;height:60px;border-radius:50%;border:2px solid var(--cyan);display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(0,212,255,.4),inset 0 0 20px rgba(0,212,255,.05);animation:spinRing 4s linear infinite}
+@keyframes spinRing{from{border-top-color:var(--violet);border-right-color:var(--cyan)}to{border-top-color:var(--cyan);border-right-color:var(--violet)}}
+.l-logo-inner{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.l-status{font-family:'Space Mono',monospace;font-size:9px;color:rgba(0,212,255,.7);letter-spacing:3px;text-transform:uppercase}
+.l-bar-wrap{width:140px;height:2px;background:rgba(0,212,255,.15);border-radius:1px;overflow:hidden}
+.l-bar{height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:1px;animation:loadBar 2.5s ease-in-out infinite}
+@keyframes loadBar{0%{width:0%}60%{width:100%}100%{width:100%}}
+.l-click-hint{font-size:10px;color:var(--violet);letter-spacing:2px;font-family:'Space Mono',monospace;animation:blink 2s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+.laptop-base{width:420px;height:16px;background:linear-gradient(180deg,#1a1a2e,#0d0d1a);border-radius:0 0 8px 8px;border:1px solid rgba(0,212,255,.2);border-top:none}
+.laptop-base::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:70px;height:4px;background:#111;border-radius:2px}
+.laptop-glow{position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:300px;height:30px;background:rgba(0,212,255,.15);filter:blur(20px);border-radius:50%;pointer-events:none}
+.click-badge{position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;color:rgba(0,212,255,.6);letter-spacing:3px;text-transform:uppercase;font-family:'Space Mono',monospace;animation:blink 2s ease-in-out infinite}
+
+/* ── SECTIONS ── */
+section{padding:100px 80px;position:relative}
+.sec-head{margin-bottom:60px}
+.sec-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.sec-num::before{content:'';width:36px;height:1px;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.sec-title{font-family:'Orbitron',monospace;font-size:clamp(28px,4vw,48px);font-weight:900;color:#fff;line-height:1.1}
+.sec-title .hl{color:var(--cyan)}
+.sec-title .hlv{color:var(--violet)}
+
+/* ── ABOUT ── */
+#about{background:linear-gradient(180deg,var(--bg) 0%,rgba(10,22,40,.4) 50%,var(--bg) 100%)}
+.about-grid{display:grid;grid-template-columns:340px 1fr;gap:60px;align-items:start}
+.profile-box{border:1px solid var(--border);border-radius:16px;padding:36px;background:rgba(10,22,40,.7);backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.profile-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),transparent)}
+.avatar-ring{width:96px;height:96px;margin:0 auto 20px;position:relative}
+.avatar-ring-svg{position:absolute;inset:0;animation:ringRotate 6s linear infinite}
+@keyframes ringRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.avatar-inner{position:absolute;inset:8px;background:linear-gradient(135deg,var(--s2),var(--s1));border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.avatar-icon{font-size:36px}
+.p-name{font-family:'Orbitron',monospace;font-size:16px;font-weight:900;color:#fff;text-align:center;margin-bottom:4px}
+.p-role{font-size:11px;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;text-align:center;margin-bottom:24px;text-shadow:0 0 10px rgba(0,212,255,.4)}
+.p-alias{font-size:12px;color:var(--violet);letter-spacing:2px;text-align:center;margin-bottom:24px;font-family:'Space Mono',monospace}
+.p-rows{display:grid;gap:0}
+.p-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:12px}
+.p-row:last-child{border-bottom:none}
+.p-key{color:var(--muted);letter-spacing:1px}
+.p-val{color:var(--txt);font-weight:600}
+.p-val.live{color:var(--cyan);display:flex;align-items:center;gap:6px}
+.p-val.live::before{content:'';width:6px;height:6px;background:var(--cyan);border-radius:50%;box-shadow:0 0 8px var(--cyan);animation:pulse 2s ease-in-out infinite}
+
+.about-right{}
+.about-bio{font-size:16px;line-height:1.9;color:rgba(226,232,240,.65);margin-bottom:30px;font-weight:300}
+.about-bio strong{color:var(--cyan);font-weight:600}
+.certs-wrap{margin-top:30px}
+.certs-title{font-size:11px;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;font-family:'Space Mono',monospace}
+.cert-list{display:grid;gap:10px}
+.cert-card{display:flex;align-items:center;gap:14px;padding:14px 18px;border:1px solid var(--border);border-radius:8px;background:rgba(10,22,40,.5);transition:all .25s}
+.cert-card:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04)}
+.cert-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cert-icon.udemy{background:rgba(160,85,255,.15);border:1px solid rgba(160,85,255,.2)}
+.cert-icon.thm{background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2)}
+.cert-icon.cisco{background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.2)}
+.cert-icon.diploma{background:rgba(57,255,20,.1);border:1px solid rgba(57,255,20,.2)}
+.cert-name{font-size:12px;color:var(--txt);font-weight:600}
+.cert-org{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:2px}
+
+/* ── SKILLS ── */
+#skills{background:var(--bg)}
+.skills-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.skills-col-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--violet);letter-spacing:3px;text-transform:uppercase;margin-bottom:30px;padding-bottom:14px;border-bottom:1px solid rgba(168,85,247,.2)}
+.sk-item{margin-bottom:26px}
+.sk-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sk-name{font-size:13px;color:var(--txt);font-weight:600;letter-spacing:.5px}
+.sk-pct{font-family:'Orbitron',monospace;font-size:12px;color:var(--cyan);font-weight:700}
+.sk-track{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;position:relative}
+.sk-fill{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform 1.4s cubic-bezier(.4,0,.2,1)}
+.sk-fill.go{transform:scaleX(1)}
+.sk-fill.c1{background:linear-gradient(90deg,var(--cyan),var(--violet));box-shadow:0 0 8px rgba(0,212,255,.5)}
+.sk-fill.c2{background:linear-gradient(90deg,var(--violet),#f472b6);box-shadow:0 0 8px rgba(168,85,247,.5)}
+
+.tools-section{margin-top:60px}
+.tools-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:24px}
+.tools-flex{display:flex;flex-wrap:wrap;gap:10px}
+.tool-pill{display:flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(226,232,240,.7);letter-spacing:.5px;transition:all .25s;cursor:default;background:rgba(10,22,40,.4)}
+.tool-pill:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(0,212,255,.05);box-shadow:0 0 12px rgba(0,212,255,.1)}
+.tool-pip{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0}
+
+/* ── PROJECTS ── */
+#projects{background:linear-gradient(180deg,var(--bg) 0%,rgba(10,22,40,.3) 50%,var(--bg) 100%)}
+.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.proj-card{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:rgba(10,22,40,.7);backdrop-filter:blur(20px);transition:all .4s;cursor:pointer;position:relative;text-decoration:none}
+.proj-card:hover{transform:translateY(-8px);border-color:rgba(0,212,255,.35);box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 40px rgba(0,212,255,.1)}
+.proj-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.proj-card:hover::after{transform:scaleX(1)}
+.proj-top{padding:28px 28px 20px;display:flex;align-items:flex-start;justify-content:space-between}
+.proj-icon-wrap{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:rgba(0,0,0,.4)}
+.proj-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:100px}
+.badge-py{border:1px solid rgba(0,212,255,.3);color:var(--cyan);background:rgba(0,212,255,.07)}
+.badge-osint{border:1px solid rgba(168,85,247,.3);color:var(--violet);background:rgba(168,85,247,.07)}
+.proj-body{padding:0 28px 28px}
+.proj-name{font-family:'Orbitron',monospace;font-size:18px;font-weight:800;color:#fff;margin-bottom:10px;letter-spacing:1px}
+.proj-desc{font-size:13px;line-height:1.8;color:rgba(226,232,240,.55);margin-bottom:18px}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.p-tag{font-size:9px;padding:3px 10px;border:1px solid rgba(226,232,240,.1);color:rgba(226,232,240,.5);border-radius:100px;letter-spacing:1px;text-transform:uppercase}
+.proj-link{display:flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);text-decoration:none;transition:gap .25s;letter-spacing:1px}
+.proj-link:hover{gap:14px}
+
+/* ── CONTACT ── */
+#contact{background:var(--bg)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-intro{font-size:16px;line-height:1.9;color:rgba(226,232,240,.6);margin-bottom:36px;font-weight:300}
+.contact-intro strong{color:var(--txt)}
+.social-grid{display:grid;gap:10px}
+.soc-link{display:flex;align-items:center;gap:16px;padding:14px 18px;border:1px solid var(--border);border-radius:10px;text-decoration:none;background:rgba(10,22,40,.5);transition:all .25s;group:true}
+.soc-link:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04);transform:translateX(6px)}
+.soc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.soc-info{}
+.soc-name{font-size:12px;color:var(--txt);font-weight:600}
+.soc-handle{font-size:11px;color:var(--muted);margin-top:2px;font-family:'Space Mono',monospace}
+.soc-arrow{margin-left:auto;color:var(--muted);font-size:16px;transition:all .25s}
+.soc-link:hover .soc-arrow{color:var(--cyan);transform:translateX(4px)}
+
+.contact-form-box{border:1px solid var(--border);border-radius:16px;padding:36px;background:rgba(10,22,40,.7);backdrop-filter:blur(20px);position:relative;overflow:hidden}
+.contact-form-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--violet),var(--cyan),transparent)}
+.cf-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.cf-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-family:'Space Mono',monospace}
+.cf-input,.cf-textarea{background:rgba(3,7,17,.7);border:1px solid var(--border);color:var(--txt);padding:12px 16px;border-radius:8px;font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:border-color .25s,box-shadow .25s;width:100%}
+.cf-input::placeholder,.cf-textarea::placeholder{color:var(--muted)}
+.cf-input:focus,.cf-textarea:focus{border-color:rgba(0,212,255,.4);box-shadow:0 0 0 4px rgba(0,212,255,.06)}
+.cf-textarea{resize:vertical;min-height:110px}
+.cf-submit{width:100%;padding:14px;background:linear-gradient(135deg,var(--cyan2),var(--violet2));border:none;color:#fff;font-family:'Orbitron',monospace;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;border-radius:8px;transition:all .3s;margin-top:4px}
+.cf-submit:hover{opacity:.9;box-shadow:0 8px 30px rgba(0,212,255,.25),0 4px 15px rgba(168,85,247,.2);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 80px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;background:rgba(3,7,17,.9);backdrop-filter:blur(10px)}
+.foot-logo{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;color:var(--cyan);letter-spacing:2px}
+.foot-copy{font-size:11px;color:var(--muted);letter-spacing:1px}
+.foot-time{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+
+/* FADE ANIMATIONS */
+.fi{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease}
+.fi.v{opacity:1;transform:none}
+.fi-l{opacity:0;transform:translateX(-40px);transition:opacity .9s ease,transform .9s ease}
+.fi-l.v{opacity:1;transform:none}
+.fi-r{opacity:0;transform:translateX(40px);transition:opacity .9s ease,transform .9s ease}
+.fi-r.v{opacity:1;transform:none}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 80px}
+
+/* ═══════════════ DESKTOP OS ═══════════════ */
+#os-overlay{position:fixed;inset:0;z-index:3000;display:none;flex-direction:column;background:#040c14}
+#os-overlay.active{display:flex;animation:osIn .8s cubic-bezier(.4,0,.2,1)}
+@keyframes osIn{from{opacity:0;clip-path:inset(50% 50% 50% 50% round 20px)}to{opacity:1;clip-path:inset(0% 0% 0% 0% round 0px)}}
+
+/* OS BOOT SCREEN */
+#boot-screen{position:absolute;inset:0;background:#040c14;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;transition:opacity .8s ease}
+#boot-screen.done{opacity:0;pointer-events:none}
+.boot-logo{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:var(--cyan);letter-spacing:6px;text-shadow:0 0 30px rgba(0,212,255,.6);margin-bottom:8px}
+.boot-sub{font-size:11px;color:var(--muted);letter-spacing:4px;margin-bottom:40px}
+.boot-progress{width:280px;height:2px;background:rgba(255,255,255,.06);border-radius:1px;overflow:hidden}
+.boot-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:1px;width:0%;transition:width .05s linear}
+.boot-log{margin-top:24px;font-family:'Space Mono',monospace;font-size:10px;color:rgba(0,212,255,.5);text-align:center;letter-spacing:1px;height:14px}
+
+/* OS WALLPAPER */
+.os-wall{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(168,85,247,.12) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(0,212,255,.08) 0%,transparent 50%),#040c14;overflow:hidden}
+.os-wall::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(0,212,255,.03) 39px,rgba(0,212,255,.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(0,212,255,.03) 39px,rgba(0,212,255,.03) 40px)}
+#os-bg-canvas{position:absolute;inset:0;opacity:.4}
+
+/* TOPBAR */
+.os-topbar{position:relative;z-index:10;height:40px;background:rgba(4,12,20,.92);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;backdrop-filter:blur(20px);flex-shrink:0}
+.os-tb-left{display:flex;align-items:center;gap:18px}
+.os-logo{font-family:'Orbitron',monospace;font-size:12px;font-weight:800;color:var(--cyan);letter-spacing:2px}
+.os-menu{display:flex;gap:16px}
+.os-menu-item{font-size:11px;color:var(--muted);cursor:pointer;transition:color .2s;letter-spacing:1px;padding:4px 8px;border-radius:4px}
+.os-menu-item:hover{color:var(--cyan);background:rgba(0,212,255,.06)}
+.os-tb-right{display:flex;align-items:center;gap:16px}
+.os-tb-info{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+.os-tb-time{font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan)}
+.os-close-btn{display:flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid rgba(255,100,100,.3);color:rgba(255,100,100,.7);font-size:10px;border-radius:4px;cursor:pointer;transition:all .2s;font-family:'Space Mono',monospace;letter-spacing:1px}
+.os-close-btn:hover{background:rgba(255,50,50,.12);color:#ff4444;box-shadow:0 0 12px rgba(255,50,50,.2)}
+
+/* OS DESKTOP */
+.os-desktop{flex:1;position:relative;overflow:hidden}
+
+/* ICON GRID */
+.icon-grid{display:grid;grid-template-columns:repeat(5,90px);grid-auto-rows:90px;gap:8px;padding:24px;position:relative;z-index:2}
+.d-icon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;padding:10px 6px;border-radius:10px;transition:all .2s;border:1px solid transparent}
+.d-icon:hover{background:rgba(0,212,255,.07);border-color:rgba(0,212,255,.15);box-shadow:0 0 20px rgba(0,212,255,.08)}
+.d-icon:hover .di-img{transform:scale(1.12) translateY(-3px)}
+.di-img{width:52px;height:52px;border-radius:12px;transition:all .25s;flex-shrink:0;position:relative}
+.di-label{font-size:9px;color:rgba(255,255,255,.8);text-align:center;font-weight:600;letter-spacing:.3px;line-height:1.3;text-shadow:0 1px 4px rgba(0,0,0,.9)}
+
+/* SVG ICONS */
+svg.icon-svg{width:52px;height:52px}
+
+/* APP WINDOWS */
+.app-win{position:absolute;background:rgba(5,14,28,.95);border:1px solid rgba(0,212,255,.18);border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.8),0 0 40px rgba(0,212,255,.06);z-index:100;min-width:300px;overflow:hidden;backdrop-filter:blur(30px)}
+.app-win.opening{animation:winOpen .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes winOpen{from{opacity:0;transform:scale(.88) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.win-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:rgba(4,12,20,.95);border-bottom:1px solid var(--border);cursor:move;user-select:none}
+.win-title-row{display:flex;align-items:center;gap:10px}
+.win-dot-grp{display:flex;gap:7px}
+.wd{width:12px;height:12px;border-radius:50%;cursor:pointer;transition:filter .2s}
+.wd:hover{filter:brightness(1.3)}
+.wd.red{background:#ff5f57}
+.wd.yel{background:#febc2e}
+.wd.grn{background:#28c840}
+.win-ttl{font-size:11px;color:var(--muted);letter-spacing:2px;font-family:'Space Mono',monospace}
+.win-body{padding:20px;overflow-y:auto;max-height:480px}
+.win-body::-webkit-scrollbar{width:4px}
+.win-body::-webkit-scrollbar-thumb{background:rgba(0,212,255,.2);border-radius:2px}
+
+/* TERMINAL WINDOW */
+.term-screen{background:#000e1a;border:1px solid rgba(0,212,255,.12);border-radius:8px;padding:16px;font-family:'Space Mono',monospace;font-size:12px;line-height:1.8;height:300px;overflow-y:auto}
+.term-screen::-webkit-scrollbar{width:3px}
+.term-screen::-webkit-scrollbar-thumb{background:rgba(0,212,255,.2)}
+.tp{color:var(--cyan)}
+.tc{color:#fff}
+.to{color:rgba(0,212,255,.7)}
+.ts{color:#39ff14}
+.tw{color:#fb923c}
+.term-cur{display:inline-block;width:8px;height:14px;background:var(--cyan);vertical-align:text-bottom;animation:blink 1s step-end infinite}
+.term-inp{margin-top:10px;display:flex;gap:0;border:1px solid rgba(0,212,255,.2);border-radius:6px;overflow:hidden}
+.term-inp-pfx{background:rgba(0,212,255,.06);padding:9px 12px;font-family:'Space Mono',monospace;font-size:12px;color:var(--cyan);white-space:nowrap}
+.term-inp-el{background:transparent;border:none;color:#fff;padding:9px 12px;font-family:'Space Mono',monospace;font-size:12px;outline:none;flex:1}
+
+/* PROJECTS WIN */
+.pw-card{border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;background:rgba(0,212,255,.03);transition:all .25s;cursor:pointer}
+.pw-card:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.06)}
+.pw-card-name{font-family:'Orbitron',monospace;font-size:14px;color:#fff;margin-bottom:6px;font-weight:700}
+.pw-card-desc{font-size:11px;color:rgba(226,232,240,.5);line-height:1.7}
+.pw-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.pw-tag{font-size:9px;padding:3px 9px;border:1px solid rgba(0,212,255,.15);color:rgba(0,212,255,.6);border-radius:100px;letter-spacing:1px}
+
+/* SKILLS WIN */
+.sw-item{margin-bottom:20px}
+.sw-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.sw-nm{font-size:12px;color:var(--txt)}
+.sw-pc{font-family:'Orbitron',monospace;font-size:11px;color:var(--cyan)}
+.sw-tr{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+.sw-fl{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--violet));transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
+.sw-fl.go{transform:scaleX(1)}
+
+/* ABOUT WIN */
+.aw-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px}
+.aw-key{color:var(--muted)}
+.aw-val{color:var(--txt);font-weight:600}
+
+/* CONTACT WIN */
+.cw-row{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;transition:all .2s;cursor:pointer;text-decoration:none}
+.cw-row:hover{border-color:rgba(0,212,255,.3);background:rgba(0,212,255,.04)}
+.cw-icon{font-size:20px;width:32px;text-align:center}
+.cw-name{font-size:11px;color:var(--muted);letter-spacing:1px}
+.cw-val{font-size:13px;color:var(--txt);margin-top:1px}
+
+/* DOCK */
+.os-dock{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(4,12,20,.88);border:1px solid rgba(0,212,255,.15);border-radius:16px;padding:10px 18px;display:flex;gap:14px;backdrop-filter:blur(30px);z-index:5;box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 20px rgba(0,212,255,.07)}
+.dock-btn{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;border:1px solid transparent;position:relative}
+.dock-btn:hover{background:rgba(0,212,255,.08);border-color:rgba(0,212,255,.2);transform:translateY(-5px) scale(1.12);box-shadow:0 10px 25px rgba(0,212,255,.15)}
+.dock-tip{position:absolute;bottom:54px;left:50%;transform:translateX(-50%);background:rgba(4,12,20,.95);border:1px solid var(--border);padding:4px 10px;border-radius:5px;font-size:9px;color:var(--cyan);white-space:nowrap;letter-spacing:1px;opacity:0;transition:opacity .2s;pointer-events:none;font-family:'Space Mono',monospace}
+.dock-btn:hover .dock-tip{opacity:1}
+
+/* KALI WIN */
+.kali-cmd{background:#000e1a;border:1px solid rgba(0,212,255,.12);border-radius:6px;padding:11px 14px;font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);cursor:pointer;transition:all .2s;margin-bottom:8px}
+.kali-cmd:hover{border-color:rgba(0,212,255,.35);background:rgba(0,212,255,.06);transform:translateX(4px)}
+.kali-cmd-cat{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px;font-family:'Space Mono',monospace}
+
+/* RESPONSIVE */
+@media(max-width:1024px){#hero{grid-template-columns:1fr;padding:80px 40px 60px}.hero-right{display:none}.about-grid{grid-template-columns:1fr}.skills-inner{grid-template-columns:1fr}.projects-grid{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr;gap:40px}section{padding:80px 40px}.divider{margin:0 40px}footer{padding:24px 40px}}
+@media(max-width:768px){nav{padding:0 24px}.nav-links{display:none}.hero-stats{flex-direction:column}.h-stat{border-right:none;border-bottom:1px solid var(--border)}.h-stat:last-child{border-bottom:none}section{padding:60px 24px}}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SA<span>.</span>0x</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:me.sahilkamboh@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-bg-glow2"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow fi-l">
+      <div class="h-dot"></div>
+      <span class="h-eye-txt">Cybersecurity Researcher · Bug Hunter · Chess Player</span>
+    </div>
+    <h1 class="hero-name fi-l" style="transition-delay:.1s">
+      <span class="hl">Sahil</span><br>Ahmed
+    </h1>
+    <div class="hero-alias fi-l" style="transition-delay:.2s">Pr0fessor SnApe · 0xCipher</div>
+    <p class="hero-bio fi-l" style="transition-delay:.3s">
+      Offensive security enthusiast passionate about uncovering vulnerabilities, building powerful tools, and connecting with like-minded individuals. Currently pursuing a Bachelor's in Cybersecurity.
+    </p>
+    <div class="hero-btns fi-l" style="transition-delay:.4s">
+      <span class="btn-p clickable" onclick="openOS()">Enter Desktop</span>
+      <a href="#projects" class="btn-o clickable">View Projects</a>
+    </div>
+    <div class="hero-stats fi-l" style="transition-delay:.5s">
+      <div class="h-stat"><div class="h-stat-n" id="cn1">0</div><div class="h-stat-l">Tools Built</div></div>
+      <div class="h-stat"><div class="h-stat-n" id="cn2">0</div><div class="h-stat-l">Certifications</div></div>
+      <div class="h-stat"><div class="h-stat-n" id="cn3">0</div><div class="h-stat-l">Platforms</div></div>
+      <div class="h-stat"><div class="h-stat-n" id="cn4">0+</div><div class="h-stat-l">Years Learning</div></div>
+    </div>
+  </div>
+  <div class="hero-right fi-r" style="transition-delay:.3s">
+    <div class="laptop-float clickable" onclick="openOS()" title="Click to enter desktop">
+      <div class="laptop-wrap">
+        <div class="laptop-body">
+          <div class="laptop-lid" id="lap-lid">
+            <div class="l-screen">
+              <div class="l-notch"></div>
+              <div class="l-glare"></div>
+              <div class="l-bezel"></div>
+              <div class="l-content">
+                <div class="l-logo-ring">
+                  <div class="l-logo-inner">SA</div>
+                </div>
+                <div class="l-status">CIPHER-OS v2.0</div>
+                <div class="l-bar-wrap"><div class="l-bar"></div></div>
+                <div class="l-click-hint">[ CLICK TO ENTER ]</div>
+              </div>
+            </div>
+          </div>
+          <div class="laptop-base" style="position:relative"></div>
+          <div class="laptop-glow"></div>
+        </div>
+      </div>
+      <div class="click-badge">↑ CLICK TO OPEN DESKTOP ↑</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="sec-head fi">
+    <div class="sec-num">01 — about me</div>
+    <h2 class="sec-title">Who is <span class="hl">Pr0fessor</span> <span class="hlv">SnApe?</span></h2>
+  </div>
+  <div class="about-grid">
+    <div class="profile-box fi-l">
+      <div class="avatar-ring">
+        <svg class="avatar-ring-svg" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="48" cy="48" r="44" stroke="url(#rg)" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <defs><linearGradient id="rg" x1="0" y1="0" x2="96" y2="96" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#00d4ff"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+        </svg>
+        <div class="avatar-inner">
+          <svg viewBox="0 0 60 60" width="60" height="60">
+            <defs><linearGradient id="ag" x1="0" y1="0" x2="60" y2="60"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs>
+            <!-- Hacker mask / shield icon -->
+            <path d="M30 8 L50 16 L50 32 C50 44 40 52 30 56 C20 52 10 44 10 32 L10 16 Z" fill="none" stroke="url(#ag)" stroke-width="1.5"/>
+            <circle cx="24" cy="26" r="3" fill="#00d4ff" opacity=".8"/>
+            <circle cx="36" cy="26" r="3" fill="#a855f7" opacity=".8"/>
+            <path d="M22 36 Q30 41 38 36" stroke="#00d4ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M19 21 L25 25 M41 21 L35 25" stroke="#64748b" stroke-width="1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="p-name">Sahil Ahmed</div>
+      <div class="p-role">Cybersecurity Researcher</div>
+      <div class="p-alias">Pr0fessor SnApe · 0xCipher</div>
+      <div class="p-rows">
+        <div class="p-row"><span class="p-key">Location</span><span class="p-val">Pakistan 🇵🇰</span></div>
+        <div class="p-row"><span class="p-key">Education</span><span class="p-val">BSc Cybersecurity</span></div>
+        <div class="p-row"><span class="p-key">Focus</span><span class="p-val">Offensive Security</span></div>
+        <div class="p-row"><span class="p-key">Interests</span><span class="p-val">Bugs · Chess · OSS</span></div>
+        <div class="p-row"><span class="p-key">Status</span><span class="p-val live">Open to Opportunities</span></div>
+      </div>
+    </div>
+    <div class="about-right fi-r">
+      <p class="about-bio">
+        I'm <strong>Sahil Ahmed</strong>, a cybersecurity enthusiast going by the alias <strong>Pr0fessor SnApe</strong>. I live at the intersection of security research, tool development, and the constant thrill of finding what others miss.
+      </p>
+      <p class="about-bio">
+        I love hunting for bugs across platforms like <strong>HackerOne</strong> and <strong>Bugcrowd</strong>, building open-source security tools, and connecting with people who share the same passion for cybersecurity. When I'm not at a terminal, I'm at a chessboard — both require patience, strategy, and the ability to think several moves ahead.
+      </p>
+      <div class="certs-wrap">
+        <div class="certs-title">// Certifications & Education</div>
+        <div class="cert-list fi" style="transition-delay:.2s">
+          <div class="cert-card">
+            <div class="cert-icon diploma">🎓</div>
+            <div><div class="cert-name">1-Year Diploma — CCNA · CEH · Python · Data Science · Freelancing</div><div class="cert-org">Professional Certification Institute</div></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon udemy">🎯</div>
+            <div><div class="cert-name">Network Mastery For Ethical Hackers</div><div class="cert-org">Udemy</div></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon thm">🔐</div>
+            <div><div class="cert-name">Pre Security Certificate</div><div class="cert-org">TryHackMe</div></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon cisco">🛡</div>
+            <div><div class="cert-name">Introduction to Cybersecurity</div><div class="cert-org">Cisco Networking Academy</div></div>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon cisco">⚡</div>
+            <div><div class="cert-name">Ethical Hacker</div><div class="cert-org">Cisco Networking Academy</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="sec-head fi">
+    <div class="sec-num">02 — capabilities</div>
+    <h2 class="sec-title">Skill <span class="hl">Arsenal</span></h2>
+  </div>
+  <div class="skills-inner">
+    <div class="fi-l">
+      <div class="skills-col-title">// Offensive Security</div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">OSINT &amp; Intelligence</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill c1" data-w=".90"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Python Scripting</span><span class="sk-pct">80%</span></div><div class="sk-track"><div class="sk-fill c1" data-w=".80"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Network Reconnaissance</span><span class="sk-pct">80%</span></div><div class="sk-track"><div class="sk-fill c1" data-w=".80"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Cloud Security</span><span class="sk-pct">75%</span></div><div class="sk-track"><div class="sk-fill c1" data-w=".75"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Penetration Testing</span><span class="sk-pct">70%</span></div><div class="sk-track"><div class="sk-fill c1" data-w=".70"></div></div></div>
+    </div>
+    <div class="fi-r">
+      <div class="skills-col-title">// Research &amp; Development</div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Exploit Development</span><span class="sk-pct">60%</span></div><div class="sk-track"><div class="sk-fill c2" data-w=".60"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Malware Analysis</span><span class="sk-pct">40%</span></div><div class="sk-track"><div class="sk-fill c2" data-w=".40"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Web Application Security</span><span class="sk-pct">75%</span></div><div class="sk-track"><div class="sk-fill c2" data-w=".75"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Bug Bounty Hunting</span><span class="sk-pct">80%</span></div><div class="sk-track"><div class="sk-fill c2" data-w=".80"></div></div></div>
+      <div class="sk-item"><div class="sk-top"><span class="sk-name">Linux / Shell Scripting</span><span class="sk-pct">82%</span></div><div class="sk-track"><div class="sk-fill c2" data-w=".82"></div></div></div>
+    </div>
+  </div>
+  <div class="tools-section fi" style="transition-delay:.3s">
+    <div class="tools-title">// Tools &amp; Platforms</div>
+    <div class="tools-flex">
+      <div class="tool-pill"><div class="tool-pip"></div>Kali Linux</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Burp Suite Pro</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Metasploit</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Nmap / Masscan</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Wireshark</div>
+      <div class="tool-pill"><div class="tool-pip"></div>SQLmap</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Gobuster</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Subfinder</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Nuclei</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Python 3</div>
+      <div class="tool-pill"><div class="tool-pip"></div>VS Code</div>
+      <div class="tool-pill"><div class="tool-pip"></div>TryHackMe</div>
+      <div class="tool-pill"><div class="tool-pip"></div>HackerOne</div>
+      <div class="tool-pill"><div class="tool-pip"></div>VMware Pro</div>
+      <div class="tool-pill"><div class="tool-pip"></div>Git / GitHub</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="sec-head fi">
+    <div class="sec-num">03 — open source</div>
+    <h2 class="sec-title">My <span class="hl">Tools</span></h2>
+  </div>
+  <div class="projects-grid">
+
+    <!-- FATAH2 -->
+    <a class="proj-card fi-l clickable" href="https://github.com/T-Slytherins/fatah2" target="_blank">
+      <div class="proj-top">
+        <div class="proj-icon-wrap">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <rect width="52" height="52" rx="12" fill="rgba(0,212,255,0.08)"/>
+            <!-- Radar circles -->
+            <circle cx="26" cy="26" r="18" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+            <circle cx="26" cy="26" r="12" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+            <circle cx="26" cy="26" r="6" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+            <!-- Sweep line -->
+            <line x1="26" y1="26" x2="26" y2="8" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="26" y1="26" x2="38" y2="20" stroke="rgba(0,212,255,0.4)" stroke-width="1" stroke-linecap="round"/>
+            <circle cx="26" cy="26" r="2.5" fill="#00d4ff"/>
+            <!-- Scan dots -->
+            <circle cx="20" cy="18" r="1.5" fill="#a855f7" opacity=".8"/>
+            <circle cx="34" cy="22" r="1.5" fill="#00d4ff" opacity=".6"/>
+            <circle cx="18" cy="30" r="1" fill="#00d4ff" opacity=".4"/>
+          </svg>
+        </div>
+        <div class="proj-badge badge-py">Python · Recon</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-name">FATAH2</div>
+        <p class="proj-desc">Advanced Reconnaissance Suite — a one-command multi-source recon engine with 6-stage async pipeline. Discovers subdomains, probes HTTP, scores risks, and generates detailed reports. Supports Shodan, VirusTotal, SecurityTrails & more.</p>
+        <div class="proj-tags">
+          <span class="p-tag">Recon</span><span class="p-tag">Subdomain</span><span class="p-tag">DNS</span><span class="p-tag">Risk Scoring</span><span class="p-tag">REST API</span>
+        </div>
+        <div class="proj-link">github.com/T-Slytherins/fatah2 →</div>
+      </div>
+    </a>
+
+    <!-- SHAHEEN3 -->
+    <a class="proj-card fi-r clickable" href="https://github.com/T-Slytherins/shaheen3" target="_blank">
+      <div class="proj-top">
+        <div class="proj-icon-wrap">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <rect width="52" height="52" rx="12" fill="rgba(168,85,247,0.08)"/>
+            <!-- Falcon / hawk geometric -->
+            <path d="M26 10 L34 22 L30 24 L38 36 L26 28 L14 36 L22 24 L18 22 Z" fill="none" stroke="url(#fg)" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M26 10 L26 28" stroke="#a855f7" stroke-width="1" stroke-dasharray="3 2" opacity=".5"/>
+            <circle cx="26" cy="10" r="2.5" fill="#a855f7"/>
+            <circle cx="26" cy="28" r="1.5" fill="#00d4ff"/>
+            <defs><linearGradient id="fg" x1="14" y1="10" x2="38" y2="36"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+          </svg>
+        </div>
+        <div class="proj-badge badge-osint">Python · PenTest</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-name">SHAHEEN3</div>
+        <p class="proj-desc">Elite Penetration Testing & OSINT Suite — full assessment platform with recon, subdomain enumeration, port scanning, WAF bypass, web crawling, screenshot capture, exploit chaining, and 11 custom Nuclei templates covering OWASP Top 10.</p>
+        <div class="proj-tags">
+          <span class="p-tag">PenTest</span><span class="p-tag">OSINT</span><span class="p-tag">Nuclei</span><span class="p-tag">WAF Bypass</span><span class="p-tag">REST API</span>
+        </div>
+        <div class="proj-link">github.com/T-Slytherins/shaheen3 →</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="sec-head fi">
+    <div class="sec-num">04 — connect</div>
+    <h2 class="sec-title">Get In <span class="hl">Touch</span></h2>
+  </div>
+  <div class="contact-grid">
+    <div class="fi-l">
+      <p class="contact-intro">Want to collaborate on a bug bounty, security research, or just connect with a fellow cybersecurity enthusiast? <strong>I'm always open to meaningful conversations.</strong></p>
+      <div class="social-grid">
+        <a class="soc-link clickable" href="https://www.linkedin.com/in/sahil-ahmed-kamboh/" target="_blank">
+          <div class="soc-icon" style="background:rgba(0,119,181,.12);border:1px solid rgba(0,119,181,.2)">💼</div>
+          <div class="soc-info"><div class="soc-name">LinkedIn</div><div class="soc-handle">sahil-ahmed-kamboh</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+        <a class="soc-link clickable" href="https://github.com/T-Slytherins" target="_blank">
+          <div class="soc-icon" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)">🐙</div>
+          <div class="soc-info"><div class="soc-name">GitHub</div><div class="soc-handle">T-Slytherins</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+        <a class="soc-link clickable" href="https://hackerone.com/pr0fessor_snape" target="_blank">
+          <div class="soc-icon" style="background:rgba(255,80,0,.08);border:1px solid rgba(255,80,0,.15)">🏆</div>
+          <div class="soc-info"><div class="soc-name">HackerOne</div><div class="soc-handle">pr0fessor_snape</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+        <a class="soc-link clickable" href="https://bugcrowd.com/Pr0FessoR_SnApe" target="_blank">
+          <div class="soc-icon" style="background:rgba(255,150,0,.08);border:1px solid rgba(255,150,0,.15)">🎯</div>
+          <div class="soc-info"><div class="soc-name">Bugcrowd</div><div class="soc-handle">Pr0FessoR_SnApe</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+        <a class="soc-link clickable" href="https://instagram.com/7ul8n" target="_blank">
+          <div class="soc-icon" style="background:rgba(255,0,128,.08);border:1px solid rgba(255,0,128,.15)">📸</div>
+          <div class="soc-info"><div class="soc-name">Instagram</div><div class="soc-handle">@7ul8n</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+        <a class="soc-link clickable" href="mailto:me.sahilkamboh@gmail.com">
+          <div class="soc-icon" style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15)">✉️</div>
+          <div class="soc-info"><div class="soc-name">Email</div><div class="soc-handle">me.sahilkamboh@gmail.com</div></div>
+          <div class="soc-arrow">→</div>
+        </a>
+      </div>
+    </div>
+    <div class="fi-r">
+      <div class="contact-form-box">
+        <div class="cf-field">
+          <label class="cf-label">Your Name</label>
+          <input class="cf-input" type="text" placeholder="John Doe">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label">Email Address</label>
+          <input class="cf-input" type="email" placeholder="you@example.com">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label">Subject</label>
+          <input class="cf-input" type="text" placeholder="Bug bounty collaboration, research...">
+        </div>
+        <div class="cf-field">
+          <label class="cf-label">Message</label>
+          <textarea class="cf-textarea" placeholder="Hey Sahil, I'd love to..."></textarea>
+        </div>
+        <button class="cf-submit clickable" id="send-btn" onclick="handleSend()">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="foot-logo">Sahil Ahmed · <span style="color:var(--violet)">Pr0fessor SnApe</span></div>
+  <div class="foot-copy">Crafted with passion for cybersecurity</div>
+  <div class="foot-time" id="foot-clock"></div>
+</footer>
+
+<!-- ══════════════ DESKTOP OS ══════════════ -->
+<div id="os-overlay">
+  <div id="boot-screen">
+    <div class="boot-logo">CIPHER-OS</div>
+    <div class="boot-sub">Sahil Ahmed · Pr0fessor SnApe · v2.0</div>
+    <div class="boot-progress"><div class="boot-fill" id="boot-fill"></div></div>
+    <div class="boot-log" id="boot-log">Initializing secure environment...</div>
+  </div>
+
+  <div class="os-wall">
+    <canvas id="os-bg-canvas"></canvas>
+  </div>
+
+  <div class="os-topbar">
+    <div class="os-tb-left">
+      <div class="os-logo">CIPHER-OS</div>
+      <div class="os-menu">
+        <div class="os-menu-item clickable" onclick="openWin('terminal')">Terminal</div>
+        <div class="os-menu-item clickable" onclick="openWin('about')">About</div>
+        <div class="os-menu-item clickable" onclick="openWin('skills')">Skills</div>
+        <div class="os-menu-item clickable" onclick="openWin('projects')">Projects</div>
+        <div class="os-menu-item clickable" onclick="openWin('contact')">Contact</div>
+      </div>
+    </div>
+    <div class="os-tb-right">
+      <span class="os-tb-info" style="color:#39ff14">● SECURED</span>
+      <span class="os-tb-time" id="os-clock">00:00</span>
+      <div class="os-close-btn clickable" onclick="closeOS()">✕ EXIT</div>
+    </div>
+  </div>
+
+  <div class="os-desktop" id="os-desktop">
+    <!-- ICON GRID -->
+    <div class="icon-grid">
+
+      <!-- Terminal -->
+      <div class="d-icon clickable" onclick="openWin('terminal')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="52" height="52" rx="12" fill="#000e1a"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.4)" stroke-width="1"/>
+          <text x="10" y="32" font-family="monospace" font-size="16" fill="#00d4ff" font-weight="bold">&gt;_</text>
+          <line x1="10" y1="36" x2="28" y2="36" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+          <rect x="28" y="24" width="6" height="10" rx="1" fill="#00d4ff" opacity=".8"/>
+        </svg>
+        <div class="di-label">Terminal</div>
+      </div>
+
+      <!-- Kali Linux -->
+      <div class="d-icon clickable" onclick="openWin('kali')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#0a0014"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(168,85,247,0.5)" stroke-width="1"/>
+          <!-- Dragon outline -->
+          <path d="M26 10 C30 10 36 14 38 20 C40 26 38 32 34 36 C32 38 28 40 26 42 C24 40 20 38 18 36 C14 32 12 26 14 20 C16 14 22 10 26 10Z" fill="none" stroke="#a855f7" stroke-width="1.2"/>
+          <path d="M22 22 L24 20 L26 22 L28 20 L30 22" stroke="#a855f7" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="22" cy="27" r="2" fill="#a855f7" opacity=".8"/>
+          <circle cx="30" cy="27" r="2" fill="#a855f7" opacity=".8"/>
+          <path d="M22 33 Q26 36 30 33" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <div class="di-label">Kali Linux</div>
+      </div>
+
+      <!-- Fatah2 -->
+      <div class="d-icon clickable" onclick="openWin('fatah2')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#000e1a"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.4)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="17" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="11" stroke="rgba(0,212,255,0.22)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="5" stroke="rgba(0,212,255,0.35)" stroke-width="1"/>
+          <path d="M26 26 L26 9" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M26 26 L38 20" stroke="rgba(0,212,255,0.35)" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="26" cy="26" r="2.5" fill="#00d4ff"/>
+          <circle cx="20" cy="17" r="1.5" fill="#a855f7" opacity=".9"/>
+          <circle cx="35" cy="22" r="1" fill="#00d4ff" opacity=".7"/>
+        </svg>
+        <div class="di-label">Fatah2</div>
+      </div>
+
+      <!-- Shaheen3 -->
+      <div class="d-icon clickable" onclick="openWin('shaheen3')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#14001a"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(168,85,247,0.5)" stroke-width="1"/>
+          <path d="M26 11 L33 22 L30 24 L38 38 L26 29 L14 38 L22 24 L19 22 Z" fill="none" stroke="url(#s3g)" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="26" cy="11" r="2.5" fill="#a855f7"/>
+          <defs><linearGradient id="s3g" x1="14" y1="11" x2="38" y2="38"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+        </svg>
+        <div class="di-label">Shaheen3</div>
+      </div>
+
+      <!-- Burp Suite -->
+      <div class="d-icon clickable" onclick="openWin('burp')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#1a0a00"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(255,107,53,0.4)" stroke-width="1"/>
+          <!-- Spider web pattern -->
+          <circle cx="26" cy="26" r="16" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="10" stroke="rgba(255,107,53,0.25)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="4" fill="#ff6b35" opacity=".8"/>
+          <line x1="26" y1="10" x2="26" y2="42" stroke="rgba(255,107,53,0.25)" stroke-width="1"/>
+          <line x1="10" y1="26" x2="42" y2="26" stroke="rgba(255,107,53,0.25)" stroke-width="1"/>
+          <line x1="15" y1="15" x2="37" y2="37" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+          <line x1="37" y1="15" x2="15" y2="37" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+        </svg>
+        <div class="di-label">Burp Suite</div>
+      </div>
+
+      <!-- Nmap -->
+      <div class="d-icon clickable" onclick="openWin('nmap')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#000e1a"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.35)" stroke-width="1"/>
+          <!-- Network nodes -->
+          <circle cx="26" cy="14" r="3" fill="#00d4ff"/>
+          <circle cx="14" cy="32" r="2.5" fill="rgba(0,212,255,.7)"/>
+          <circle cx="38" cy="32" r="2.5" fill="rgba(0,212,255,.7)"/>
+          <circle cx="26" cy="40" r="2" fill="rgba(168,85,247,.8)"/>
+          <line x1="26" y1="17" x2="14" y2="30" stroke="rgba(0,212,255,.4)" stroke-width="1"/>
+          <line x1="26" y1="17" x2="38" y2="30" stroke="rgba(0,212,255,.4)" stroke-width="1"/>
+          <line x1="14" y1="34" x2="26" y2="38" stroke="rgba(0,212,255,.3)" stroke-width="1"/>
+          <line x1="38" y1="34" x2="26" y2="38" stroke="rgba(0,212,255,.3)" stroke-width="1"/>
+          <line x1="14" y1="32" x2="38" y2="32" stroke="rgba(0,212,255,.2)" stroke-width="1"/>
+        </svg>
+        <div class="di-label">Nmap</div>
+      </div>
+
+      <!-- About -->
+      <div class="d-icon clickable" onclick="openWin('about')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#0a1628"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+          <path d="M12 40 C12 32 18 28 26 28 C34 28 40 32 40 40" stroke="rgba(0,212,255,.6)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <circle cx="26" cy="20" r="7" stroke="#00d4ff" stroke-width="1.5" fill="rgba(0,212,255,.07)"/>
+          <path d="M20 18 Q26 14 32 18" stroke="rgba(0,212,255,.4)" stroke-width="1" fill="none"/>
+        </svg>
+        <div class="di-label">About.md</div>
+      </div>
+
+      <!-- Skills -->
+      <div class="d-icon clickable" onclick="openWin('skills')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#0a1628"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(168,85,247,0.35)" stroke-width="1"/>
+          <rect x="10" y="36" width="6" height="8" rx="1" fill="#a855f7" opacity=".9"/>
+          <rect x="19" y="28" width="6" height="16" rx="1" fill="url(#sg)"/>
+          <rect x="28" y="22" width="6" height="22" rx="1" fill="url(#sg)"/>
+          <rect x="37" y="16" width="6" height="28" rx="1" fill="#00d4ff" opacity=".9"/>
+          <line x1="10" y1="44" x2="43" y2="44" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
+        </svg>
+        <div class="di-label">Skills</div>
+      </div>
+
+      <!-- Wireshark -->
+      <div class="d-icon clickable" onclick="openWin('wireshark')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#001428"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.4)" stroke-width="1"/>
+          <!-- Packet wave -->
+          <path d="M8 26 Q12 18 16 26 Q20 34 24 26 Q28 18 32 26 Q36 34 40 26 Q44 18 48 26" stroke="#00d4ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Shark fin -->
+          <path d="M22 26 L26 14 L30 26" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="26" cy="26" r="2" fill="#00d4ff"/>
+        </svg>
+        <div class="di-label">Wireshark</div>
+      </div>
+
+      <!-- Contact -->
+      <div class="d-icon clickable" onclick="openWin('contact')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#0a1628"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+          <!-- Satellite dish -->
+          <path d="M14 38 Q14 22 30 22 Q30 14 38 14" stroke="#00d4ff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M14 38 Q14 28 24 28 Q24 22 32 22" stroke="rgba(0,212,255,.5)" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="38" cy="14" r="3.5" fill="#a855f7"/>
+          <circle cx="14" cy="38" r="2.5" fill="rgba(0,212,255,.6)"/>
+          <!-- Signal waves -->
+          <path d="M40 10 Q44 14 40 18" stroke="rgba(0,212,255,.4)" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M43 7 Q49 14 43 21" stroke="rgba(0,212,255,.25)" stroke-width="1" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="di-label">Contact</div>
+      </div>
+
+      <!-- VS Code -->
+      <div class="d-icon clickable" onclick="openWin('vscode')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#001428"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(0,212,255,0.35)" stroke-width="1"/>
+          <path d="M12 18 L20 26 L12 34" stroke="#00d4ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="22" y1="34" x2="34" y2="34" stroke="rgba(168,85,247,.6)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="38" cy="18" r="2" fill="#a855f7" opacity=".8"/>
+          <circle cx="38" cy="26" r="2" fill="rgba(0,212,255,.6)"/>
+        </svg>
+        <div class="di-label">VS Code</div>
+      </div>
+
+      <!-- Metasploit -->
+      <div class="d-icon clickable" onclick="openWin('msf')">
+        <svg class="di-img icon-svg" viewBox="0 0 52 52" fill="none">
+          <rect width="52" height="52" rx="12" fill="#1a0000"/>
+          <rect x="1" y="1" width="50" height="50" rx="11" stroke="rgba(255,80,80,0.4)" stroke-width="1"/>
+          <!-- Target/exploit icon -->
+          <circle cx="26" cy="26" r="15" stroke="rgba(255,80,80,0.2)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="10" stroke="rgba(255,80,80,0.3)" stroke-width="1"/>
+          <circle cx="26" cy="26" r="5" stroke="#ff5050" stroke-width="1.5"/>
+          <circle cx="26" cy="26" r="2" fill="#ff5050"/>
+          <line x1="26" y1="11" x2="26" y2="19" stroke="#ff5050" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="26" y1="33" x2="26" y2="41" stroke="#ff5050" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="11" y1="26" x2="19" y2="26" stroke="#ff5050" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="33" y1="26" x2="41" y2="26" stroke="#ff5050" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="di-label">Metasploit</div>
+      </div>
+
+    </div>
+
+    <!-- DOCK -->
+    <div class="os-dock">
+      <div class="dock-btn clickable" onclick="openWin('terminal')">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="10" fill="#000e1a"/><text x="8" y="32" font-family="monospace" font-size="18" fill="#00d4ff" font-weight="bold">&gt;_</text></svg>
+        <div class="dock-tip">Terminal</div>
+      </div>
+      <div class="dock-btn clickable" onclick="openWin('fatah2')">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="10" fill="#000e1a"/><circle cx="26" cy="26" r="16" stroke="rgba(0,212,255,.25)" stroke-width="1"/><circle cx="26" cy="26" r="9" stroke="rgba(0,212,255,.35)" stroke-width="1"/><path d="M26 26 L26 10" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/><circle cx="26" cy="26" r="3" fill="#00d4ff"/></svg>
+        <div class="dock-tip">Fatah2</div>
+      </div>
+      <div class="dock-btn clickable" onclick="openWin('shaheen3')">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="10" fill="#14001a"/><path d="M26 11 L33 22 L30 24 L38 38 L26 29 L14 38 L22 24 L19 22 Z" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <div class="dock-tip">Shaheen3</div>
+      </div>
+      <div class="dock-btn clickable" onclick="openWin('about')">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="10" fill="#0a1628"/><path d="M12 40 C12 32 18 28 26 28 C34 28 40 32 40 40" stroke="rgba(0,212,255,.7)" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="26" cy="20" r="7" stroke="#00d4ff" stroke-width="1.5" fill="none"/></svg>
+        <div class="dock-tip">About</div>
+      </div>
+      <div class="dock-btn clickable" onclick="openWin('contact')">
+        <svg width="32" height="32" viewBox="0 0 52 52" fill="none"><rect width="52" height="52" rx="10" fill="#0a1628"/><path d="M14 38 Q14 22 30 22 Q30 14 38 14" stroke="#00d4ff" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="38" cy="14" r="3" fill="#a855f7"/><circle cx="14" cy="38" r="2" fill="rgba(0,212,255,.7)"/></svg>
+        <div class="dock-tip">Contact</div>
+      </div>
+    </div>
+  </div><!-- end os-desktop -->
+</div><!-- end os-overlay -->
+
+<script>
+// ── CURSOR ──
+const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur2.style.left=mx+'px';cur2.style.top=my+'px';
+});
+(function animCur(){
+  const cx=parseFloat(cur.style.left)||mx;
+  const cy=parseFloat(cur.style.top)||my;
+  cur.style.left=(cx+(mx-cx)*.18)+'px';
+  cur.style.top=(cy+(my-cy)*.18)+'px';
+  requestAnimationFrame(animCur);
+})();
+
+// ── PARTICLE BG ──
+function initParticles(id){
+  const c=document.getElementById(id);
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const resize=()=>{c.width=window.innerWidth;c.height=window.innerHeight};
+  resize();window.addEventListener('resize',resize);
+  const N=70,particles=[];
+  for(let i=0;i<N;i++)particles.push({
+    x:Math.random()*c.width,y:Math.random()*c.height,
+    vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,
+    r:Math.random()*2+.5
+  });
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    particles.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>c.width)p.vx*=-1;
+      if(p.y<0||p.y>c.height)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,212,255,.5)';ctx.fill();
+    });
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<130){
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        const a=(1-d/130)*.3;
+        ctx.strokeStyle=`rgba(0,212,255,${a})`;
+        ctx.lineWidth=.5;ctx.stroke();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+initParticles('bg-canvas');
+initParticles('os-bg-canvas');
+
+// ── COUNTERS ──
+function cnt(id,target,suf=''){
+  const el=document.getElementById(id);if(!el)return;
+  let v=0;const step=target/50;
+  const t=setInterval(()=>{v=Math.min(v+step,target);el.textContent=Math.round(v)+suf;if(v>=target)clearInterval(t)},30);
+}
+setTimeout(()=>{cnt('cn1',2);cnt('cn2',5);cnt('cn3',4);cnt('cn4',2,'+')},300);
+
+// ── CLOCK ──
+function tick(){
+  const n=new Date();
+  const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
+  const oc=document.getElementById('os-clock');if(oc)oc.textContent=t.slice(0,5);
+  const fc=document.getElementById('foot-clock');if(fc)fc.textContent=t;
+}
+tick();setInterval(tick,1000);
+
+// ── SCROLL ANIMATIONS ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('v');
+      e.target.querySelectorAll('.sk-fill,.sw-fl').forEach((b,i)=>{
+        setTimeout(()=>b.classList.add('go'),200+i*80);
+      });
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.fi,.fi-l,.fi-r').forEach(el=>obs.observe(el));
+
+// ── OS OPEN/CLOSE ──
+let osOpen=false;
+function openOS(){
+  if(osOpen)return;
+  osOpen=true;
+  document.getElementById('lap-lid').classList.add('open');
+  const ov=document.getElementById('os-overlay');
+  ov.style.display='flex';
+  document.body.style.overflow='hidden';
+  // BOOT SEQUENCE
+  const fill=document.getElementById('boot-fill');
+  const log=document.getElementById('boot-log');
+  const logs=['Initializing secure environment...','Loading kernel modules...','Starting network interfaces...','Mounting encrypted volumes...','Loading Pr0fessor SnApe profile...','System ready.'];
+  let pct=0,li=0;
+  const bootInt=setInterval(()=>{
+    pct+=2;fill.style.width=pct+'%';
+    if(pct%17===0&&li<logs.length)log.textContent=logs[li++];
+    if(pct>=100){
+      clearInterval(bootInt);
+      setTimeout(()=>{
+        document.getElementById('boot-screen').classList.add('done');
+      },500);
+    }
+  },30);
+}
+function closeOS(){
+  document.getElementById('os-overlay').style.display='none';
+  document.getElementById('lap-lid').classList.remove('open');
+  document.body.style.overflow='';
+  osOpen=false;
+  // reset boot
+  document.getElementById('boot-screen').classList.remove('done');
+  document.getElementById('boot-fill').style.width='0%';
+  document.querySelectorAll('.app-win').forEach(w=>w.remove());
+  openWins={};
+}
+
+// ── WINDOWS ──
+let zTop=200,openWins={};
+const winDefs={
+  terminal:{title:'bash — terminal',w:620,h:440,render:()=>`
+    <div class="term-screen" id="t-out">
+      <div><span class="tp">pr0fessor@cipher:~$ </span><span class="tc">whoami</span></div>
+      <div class="ts">Sahil Ahmed · Pr0fessor SnApe · 0xCipher</div>
+      <div><span class="tp">pr0fessor@cipher:~$ </span><span class="tc">cat bio.txt</span></div>
+      <div class="to">Cybersecurity researcher | Bug hunter | Tool builder</div>
+      <div class="to">Currently: BSc Cybersecurity | Loves chess ♟</div>
+      <div><span class="tp">pr0fessor@cipher:~$ </span><span class="tc">ls ~/tools/</span></div>
+      <div class="ts">fatah2/   shaheen3/</div>
+      <div><span class="tp">pr0fessor@cipher:~$ </span><span class="tc">cat platforms.txt</span></div>
+      <div class="to">HackerOne: pr0fessor_snape</div>
+      <div class="to">Bugcrowd:  Pr0FessoR_SnApe</div>
+      <div><span class="tp">pr0fessor@cipher:~$ </span><span class="term-cur"></span></div>
+    </div>
+    <div class="term-inp">
+      <div class="term-inp-pfx">pr0fessor@cipher:~$</div>
+      <input class="term-inp-el" placeholder="type a command..." onkeydown="termCmd(event)" id="t-in">
+    </div>`
+  },
+  kali:{title:'kali linux — 2025.1',w:540,h:420,render:()=>`
+    <div style="text-align:center;padding:8px 0 20px">
+      <div style="font-size:36px;margin-bottom:6px">🐉</div>
+      <div style="font-family:'Orbitron',monospace;font-size:15px;color:var(--violet);letter-spacing:2px;margin-bottom:4px">Kali Linux 2025.1</div>
+      <div style="font-size:10px;color:var(--muted);letter-spacing:2px">The Penetration Testing Distribution</div>
+    </div>
+    <div class="kali-cmd-cat">// Reconnaissance</div>
+    <div class="kali-cmd">$ nmap -sV -O -T4 192.168.1.1</div>
+    <div class="kali-cmd">$ subfinder -d target.com -all</div>
+    <div class="kali-cmd">$ python3 fatah2 -d target.com --depth deep</div>
+    <div class="kali-cmd-cat">// Web Attacks</div>
+    <div class="kali-cmd">$ sqlmap -u "https://target.com/page?id=1" --dbs</div>
+    <div class="kali-cmd">$ python3 shaheen3.py -d target.com --full</div>
+    <div class="kali-cmd-cat">// Exploitation</div>
+    <div class="kali-cmd">$ msfconsole -q</div>
+    <div class="kali-cmd">$ python3 -c "import pty; pty.spawn('/bin/bash')"</div>`
+  },
+  fatah2:{title:'Fatah2 — Advanced Recon Suite',w:600,h:440,render:()=>`
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:16px;background:rgba(0,212,255,.04);border:1px solid var(--border);border-radius:10px">
+      <svg width="42" height="42" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="20" stroke="rgba(0,212,255,.2)" stroke-width="1"/><circle cx="26" cy="26" r="13" stroke="rgba(0,212,255,.3)" stroke-width="1"/><circle cx="26" cy="26" r="6" stroke="#00d4ff" stroke-width="1.5"/><path d="M26 26 L26 6" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/><circle cx="26" cy="26" r="2.5" fill="#00d4ff"/><circle cx="18" cy="16" r="1.5" fill="#a855f7"/><circle cx="36" cy="22" r="1.5" fill="#00d4ff" opacity=".7"/></svg>
+      <div><div style="font-family:'Orbitron',monospace;font-size:14px;color:#fff;font-weight:700">FATAH2</div><div style="font-size:11px;color:var(--muted);margin-top:3px">Advanced Reconnaissance Suite · Python 3 · MIT License</div></div>
+    </div>
+    <div style="font-size:12px;color:rgba(226,232,240,.6);line-height:1.9;margin-bottom:16px">One-command multi-source subdomain & attack-surface reconnaissance engine with a 6-stage async pipeline, AI risk scoring, and REST API.</div>
+    <div style="font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;font-family:'Space Mono',monospace">// KEY FEATURES</div>
+    ${['Passive + Active subdomain enumeration (Subfinder, Amass, Assetfinder)','DNS brute-force with massdns','HTTP probing via httpx','AI-based heuristic risk scoring engine','JSON / HTML / TXT report generation','REST API server (FastAPI)','API key support: Shodan · SecurityTrails · VirusTotal · Censys'].map(f=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;color:rgba(226,232,240,.65)"><span style="color:var(--cyan);flex-shrink:0">→</span>${f}</div>`).join('')}
+    <a href="https://github.com/T-Slytherins/fatah2" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 20px;border:1px solid var(--cyan);color:var(--cyan);border-radius:6px;font-size:11px;font-family:'Space Mono',monospace;text-decoration:none;transition:all .2s" onmouseenter="this.style.background='rgba(0,212,255,.08)'" onmouseleave="this.style.background='transparent'">View on GitHub →</a>`
+  },
+  shaheen3:{title:'Shaheen3 — Elite PenTest & OSINT Suite',w:620,h:460,render:()=>`
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:16px;background:rgba(168,85,247,.04);border:1px solid rgba(168,85,247,.15);border-radius:10px">
+      <svg width="42" height="42" viewBox="0 0 52 52" fill="none"><path d="M26 8 L35 22 L31 25 L40 40 L26 30 L12 40 L21 25 L17 22 Z" fill="none" stroke="url(#sw)" stroke-width="1.5" stroke-linejoin="round"/><circle cx="26" cy="8" r="3" fill="#a855f7"/><defs><linearGradient id="sw" x1="12" y1="8" x2="40" y2="40"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs></svg>
+      <div><div style="font-family:'Orbitron',monospace;font-size:14px;color:#fff;font-weight:700">SHAHEEN3</div><div style="font-size:11px;color:var(--muted);margin-top:3px">Elite Penetration Testing & OSINT Suite · Python 3 · MIT License</div></div>
+    </div>
+    <div style="font-size:12px;color:rgba(226,232,240,.6);line-height:1.9;margin-bottom:16px">Full-stack penetration testing suite: recon, scanning, vuln analysis, WAF bypass, web crawling, exploit chaining, and professional dark-theme HTML reports.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${[['🔍 Recon','Whois · passive DNS · breach data'],['🌐 Subdomains','Amass · Subfinder · crt.sh · DNS brute'],['📡 Port Scan','Nmap full-port · OS fingerprinting'],['🚨 Vuln Scan','11 elite Nuclei templates · OWASP Top 10'],['🛡 WAF Bypass','Detection + encoding evasion'],['📸 Screenshots','Gowitness / Aquatone / Chromium'],['⛓ Exploit Chain','Automated lateral movement analysis'],['📊 Reports','Dark-theme HTML · JSON snapshots']].map(([t,d])=>`<div style="padding:10px;border:1px solid var(--border);border-radius:7px;background:rgba(168,85,247,.03)"><div style="font-size:11px;color:#fff;font-weight:600;margin-bottom:3px">${t}</div><div style="font-size:10px;color:var(--muted)">${d}</div></div>`).join('')}
+    </div>
+    <a href="https://github.com/T-Slytherins/shaheen3" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 20px;border:1px solid var(--violet);color:var(--violet);border-radius:6px;font-size:11px;font-family:'Space Mono',monospace;text-decoration:none;transition:all .2s" onmouseenter="this.style.background='rgba(168,85,247,.08)'" onmouseleave="this.style.background='transparent'">View on GitHub →</a>`
+  },
+  about:{title:'About — Sahil Ahmed',w:480,h:420,render:()=>`
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--violet));display:flex;align-items:center;justify-content:center;font-size:22px">🛡</div>
+      <div><div style="font-family:'Orbitron',monospace;font-size:15px;color:#fff;font-weight:800">Sahil Ahmed</div><div style="font-size:11px;color:var(--cyan);letter-spacing:2px;margin-top:3px">Pr0fessor SnApe · 0xCipher</div></div>
+    </div>
+    ${[['Alias','Pr0fessor SnApe · 0xCipher'],['Location','Pakistan 🇵🇰'],['Education','BSc Cybersecurity (In Progress)'],['Speciality','Offensive Security · Bug Bounty'],['Platforms','HackerOne · Bugcrowd'],['Interests','Bug Hunting · Chess ♟ · Open Source'],['Tools Built','Fatah2 · Shaheen3'],['Status','Open to Collaborations ✓']].map(([k,v])=>`<div class="aw-row"><span class="aw-key">${k}</span><span class="aw-val">${v}</span></div>`).join('')}
+    <div style="margin-top:16px;font-size:11px;color:rgba(226,232,240,.55);line-height:1.9">Passionate cybersecurity student who loves finding bugs, building tools, and connecting with people who share the same drive. When not hacking, playing chess.</div>`
+  },
+  skills:{title:'Skills — skill_matrix',w:500,h:440,render:()=>`
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:20px">// SKILL ASSESSMENT — Sahil Ahmed</div>
+    ${[['OSINT & Intelligence',90,'c1'],['Python Scripting',80,'c1'],['Network Recon',80,'c1'],['Bug Bounty Hunting',80,'c2'],['Cloud Security',75,'c2'],['Web App Security',75,'c2'],['Penetration Testing',70,'c1'],['Exploit Development',60,'c2'],['Malware Analysis',40,'c2']].map(([n,p,c])=>`
+    <div class="sw-item">
+      <div class="sw-top"><span class="sw-nm">${n}</span><span class="sw-pc">${p}%</span></div>
+      <div class="sw-tr"><div class="sw-fl ${c}" style="transform:scaleX(${p/100})"></div></div>
+    </div>`).join('')}`
+  },
+  burp:{title:'Burp Suite Pro — Proxy',w:580,h:400,render:()=>`
+    <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+      ${['Dashboard','Target','Proxy','Intruder','Repeater','Scanner'].map((t,i)=>`<div style="padding:6px 13px;border:1px solid ${i===2?'var(--orange)':'var(--border)'};border-radius:4px;font-size:10px;color:${i===2?'var(--orange)':'var(--muted)'};cursor:pointer;background:${i===2?'rgba(255,107,53,.08)':'transparent'};letter-spacing:1px">${t}</div>`).join('')}
+    </div>
+    <div style="background:#000e1a;border:1px solid rgba(255,107,53,.15);border-radius:8px;padding:14px;font-family:'Space Mono',monospace;font-size:11px;line-height:1.8">
+      <div style="color:#fb923c;margin-bottom:6px;font-weight:700">● INTERCEPT ON</div>
+      <div style="color:#60a5fa">POST /api/login HTTP/1.1</div>
+      <div style="color:rgba(226,232,240,.5)">Host: target.com</div>
+      <div style="color:rgba(226,232,240,.5)">Content-Type: application/json</div>
+      <div style="color:rgba(226,232,240,.5)">Authorization: Bearer eyJhbGc...</div>
+      <br>
+      <div style="color:#e2e8f0">{"user":"admin","pass":"<span style="color:#ff5555;background:rgba(255,0,0,.08);padding:1px 4px">' OR '1'='1'--</span>"}</div>
+      <br>
+      <div style="color:#39ff14">→ SQL Injection candidate detected in: password</div>
+      <div style="color:#39ff14">→ Potential authentication bypass</div>
+    </div>`
+  },
+  nmap:{title:'Nmap — Network Scanner',w:580,h:380,render:()=>`
+    <div class="term-screen" style="height:280px">
+      <div><span class="tp">root@kali:~# </span><span class="tc">nmap -sV -O -A -T4 192.168.1.1</span></div>
+      <div class="ts">Starting Nmap 7.94 ( https://nmap.org )</div>
+      <div class="to">Nmap scan report for 192.168.1.1</div>
+      <div class="to">Host is up (0.0005s latency)</div>
+      <div class="to">PORT    STATE  SERVICE   VERSION</div>
+      <div style="color:#fb923c">22/tcp  open   ssh       OpenSSH 8.9 Ubuntu</div>
+      <div class="to">80/tcp  open   http      Apache 2.4.52</div>
+      <div style="color:#ff5555">443/tcp open   ssl/http  nginx 1.18.0 [VULN: TLS 1.0]</div>
+      <div style="color:#ff5555">3306/tcp open  mysql    MySQL 5.7.38 [EXPOSED!]</div>
+      <div class="to">OS: Linux 5.4-5.15</div>
+      <div class="tw">[!] 2 vulnerabilities found — review immediately</div>
+      <div class="ts">Nmap done: 1 IP · 1 host up · 8.34s</div>
+    </div>`
+  },
+  wireshark:{title:'Wireshark — Packet Capture',w:620,h:380,render:()=>`
+    <div style="background:#000e1a;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-family:'Space Mono',monospace;font-size:10px">
+      <div style="display:grid;grid-template-columns:50px 130px 130px 70px 1fr;padding:7px 12px;background:rgba(0,212,255,.06);color:var(--muted);letter-spacing:1px;border-bottom:1px solid var(--border)">
+        <span>NO</span><span>SOURCE</span><span>DEST</span><span>PROTO</span><span>INFO</span>
+      </div>
+      ${[['001','192.168.1.10','10.0.0.1','TCP','SYN → 443','to'],
+      ['002','10.0.0.1','192.168.1.10','TLS','Server Hello','to'],
+      ['003','192.168.1.10','8.8.8.8','DNS','Query: target.com A','to'],
+      ['004','8.8.8.8','192.168.1.10','DNS','Response: 203.0.1.1','ts'],
+      ['005','192.168.1.10','203.0.1.1','HTTP','GET /api/secret HTTP/1.1','tw'],
+      ['006','203.0.1.1','192.168.1.10','HTTP','200 OK [SENSITIVE DATA]','tw'],
+      ['007','192.168.1.10','10.0.0.1','TLS','Client Finished','to'],].map(([n,s,d,p,i,cl])=>`<div style="display:grid;grid-template-columns:50px 130px 130px 70px 1fr;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:background .15s" class="${cl}" onmouseenter="this.style.background='rgba(0,212,255,.04)'" onmouseleave="this.style.background='transparent'">
+        <span>${n}</span><span>${s}</span><span>${d}</span><span style="color:${p==='HTTP'?'#ff5555':p==='DNS'?'var(--cyan)':'rgba(226,232,240,.5)'}">${p}</span><span>${i}</span>
+      </div>`).join('')}
+    </div>`
+  },
+  contact:{title:'Contact — secure channel',w:460,h:400,render:()=>`
+    <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:16px">// SECURE CHANNELS — Sahil Ahmed</div>
+    ${[
+      ['📧','Email','me.sahilkamboh@gmail.com','mailto:me.sahilkamboh@gmail.com'],
+      ['💼','LinkedIn','sahil-ahmed-kamboh','https://linkedin.com/in/sahil-ahmed-kamboh/'],
+      ['🐙','GitHub','T-Slytherins','https://github.com/T-Slytherins'],
+      ['🏆','HackerOne','pr0fessor_snape','https://hackerone.com/pr0fessor_snape'],
+      ['🎯','Bugcrowd','Pr0FessoR_SnApe','https://bugcrowd.com/Pr0FessoR_SnApe'],
+      ['📸','Instagram','@7ul8n','https://instagram.com/7ul8n'],
+    ].map(([ic,nm,hd,url])=>`<a class="cw-row clickable" href="${url}" target="_blank">
+      <div class="cw-icon">${ic}</div>
+      <div><div class="cw-name">${nm}</div><div class="cw-val">${hd}</div></div>
+      <div style="margin-left:auto;color:var(--muted);font-size:14px">→</div>
+    </a>`).join('')}`
+  },
+  vscode:{title:'VS Code — shaheen3.py',w:600,h:400,render:()=>`
+    <div style="background:#0d1117;border-radius:8px;overflow:hidden;font-family:'Space Mono',monospace;font-size:11px;line-height:1.75">
+      <div style="display:flex;background:#161b22;border-bottom:1px solid rgba(255,255,255,.06)">
+        ${['shaheen3.py','fatah2.py','config.json'].map((f,i)=>`<div style="padding:7px 16px;color:${i===0?'#fff':'rgba(255,255,255,.35)'};border-right:1px solid rgba(255,255,255,.06);cursor:pointer;font-size:10px">${f}</div>`).join('')}
+      </div>
+      <div style="padding:16px">
+        <div style="color:#6a9955">#!/usr/bin/env python3</div>
+        <div style="color:#6a9955"># Shaheen3 — Elite PenTest Suite</div>
+        <div style="color:#6a9955"># by Pr0fessor SnApe · github.com/T-Slytherins</div>
+        <br>
+        <div><span style="color:#569cd6">import</span><span style="color:#ce9178"> asyncio, httpx, subprocess</span></div>
+        <div><span style="color:#569cd6">from</span><span style="color:#ce9178"> modules.recon </span><span style="color:#569cd6">import</span><span style="color:#ce9178"> SubdomainEnum, WhoisLookup</span></div>
+        <div><span style="color:#569cd6">from</span><span style="color:#ce9178"> modules.scanning </span><span style="color:#569cd6">import</span><span style="color:#ce9178"> NmapScanner</span></div>
+        <div><span style="color:#569cd6">from</span><span style="color:#ce9178"> modules.vuln </span><span style="color:#569cd6">import</span><span style="color:#ce9178"> NucleiScanner</span></div>
+        <br>
+        <div><span style="color:#dcdcaa">async def</span> <span style="color:#4ec9b0">run_full_assessment</span><span style="color:#d4d4d4">(domain: str):</span></div>
+        <div style="padding-left:20px"><span style="color:#6a9955"># Stage 1: Recon</span></div>
+        <div style="padding-left:20px"><span style="color:#d4d4d4">subdomains = await </span><span style="color:#4ec9b0">SubdomainEnum</span><span style="color:#d4d4d4">(domain).run()</span></div>
+        <div style="padding-left:20px"><span style="color:#6a9955"># Stage 2: Scan</span></div>
+        <div style="padding-left:20px"><span style="color:#d4d4d4">ports = await </span><span style="color:#4ec9b0">NmapScanner</span><span style="color:#d4d4d4">(domain).full_scan()</span></div>
+        <div style="padding-left:20px"><span style="color:#6a9955"># Stage 3: Vuln</span></div>
+        <div style="padding-left:20px"><span style="color:#d4d4d4">vulns = await </span><span style="color:#4ec9b0">NucleiScanner</span><span style="color:#d4d4d4">(domain).run()</span></div>
+        <div style="padding-left:20px;color:#6a9955"># ... exploit chain, WAF bypass, reports</div>
+      </div>
+    </div>`
+  },
+  msf:{title:'Metasploit — msf6 console',w:580,h:380,render:()=>`
+    <div class="term-screen" style="height:300px">
+      <div style="color:#ff5050">       =[ metasploit v6.4.0-dev                         ]</div>
+      <div style="color:#ff5050">+ -- --=[ 2373 exploits · 1232 auxiliary · 413 post    ]</div>
+      <div style="color:#ff5050">+ -- --=[ 1171 payloads · 12 encoders · 9 evasion       ]</div>
+      <br>
+      <div><span class="tp">msf6 > </span><span class="tc">use exploit/multi/handler</span></div>
+      <div class="ts">[*] Using generic/shell_reverse_tcp payload</div>
+      <div><span class="tp">msf6(handler) > </span><span class="tc">set LHOST 10.14.0.42</span></div>
+      <div class="ts">LHOST => 10.14.0.42</div>
+      <div><span class="tp">msf6(handler) > </span><span class="tc">set LPORT 4444</span></div>
+      <div class="ts">LPORT => 4444</div>
+      <div><span class="tp">msf6(handler) > </span><span class="tc">exploit -j</span></div>
+      <div class="ts">[*] Exploit running as background job 0.</div>
+      <div class="ts">[*] Started reverse TCP handler on 10.14.0.42:4444</div>
+      <div class="tw">[*] Awaiting connection...</div>
+    </div>`
+  },
+  projects:{title:'Projects — /tools/',w:540,h:360,render:()=>`
+    <div class="pw-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <svg width="36" height="36" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="16" stroke="rgba(0,212,255,.3)" stroke-width="1"/><circle cx="26" cy="26" r="8" stroke="rgba(0,212,255,.5)" stroke-width="1"/><path d="M26 26 L26 10" stroke="#00d4ff" stroke-width="2" stroke-linecap="round"/><circle cx="26" cy="26" r="2.5" fill="#00d4ff"/></svg>
+        <div style="font-family:'Orbitron',monospace;font-size:14px;color:#fff;font-weight:700">FATAH2</div>
+      </div>
+      <div class="pw-card-desc">Advanced Reconnaissance Suite — async pipeline, 6 stages, risk scoring, REST API. Supports Shodan, SecurityTrails, VirusTotal, Censys.</div>
+      <div class="pw-tags"><span class="pw-tag">Recon</span><span class="pw-tag">DNS</span><span class="pw-tag">Risk Scoring</span><span class="pw-tag">Python</span></div>
+    </div>
+    <div class="pw-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+        <svg width="36" height="36" viewBox="0 0 52 52" fill="none"><path d="M26 10 L33 22 L30 24 L38 38 L26 30 L14 38 L22 24 L19 22 Z" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linejoin="round"/><circle cx="26" cy="10" r="2.5" fill="#a855f7"/></svg>
+        <div style="font-family:'Orbitron',monospace;font-size:14px;color:#fff;font-weight:700">SHAHEEN3</div>
+      </div>
+      <div class="pw-card-desc">Elite Penetration Testing & OSINT Suite — 13 modules, 11 Nuclei templates, WAF bypass, exploit chaining, dark-theme HTML reports.</div>
+      <div class="pw-tags"><span class="pw-tag">PenTest</span><span class="pw-tag">OSINT</span><span class="pw-tag">Nuclei</span><span class="pw-tag">Python</span></div>
+    </div>`
+  },
+};
+
+function openWin(id){
+  if(openWins[id]){openWins[id].style.zIndex=++zTop;return}
+  const def=winDefs[id];if(!def)return;
+  const win=document.createElement('div');
+  win.className='app-win opening';
+  const lx=60+Math.random()*160,ly=50+Math.random()*80;
+  win.style.cssText=`left:${lx}px;top:${ly}px;width:${def.w}px;z-index:${++zTop}`;
+  win.innerHTML=`
+    <div class="win-bar" onmousedown="startDrag(event,this.parentElement)">
+      <div class="win-title-row">
+        <div class="win-dot-grp">
+          <button class="wd red" onclick="closeWin('${id}',this.closest('.app-win'))"></button>
+          <button class="wd yel" onclick="minWin(this.closest('.app-win'))"></button>
+          <button class="wd grn" onclick="maxWin(this.closest('.app-win'))"></button>
+        </div>
+      </div>
+      <div class="win-ttl">${def.title}</div>
+      <div style="width:52px"></div>
+    </div>
+    <div class="win-body">${def.render()}</div>`;
+  document.getElementById('os-desktop').appendChild(win);
+  openWins[id]=win;
+  win.addEventListener('mousedown',()=>win.style.zIndex=++zTop);
+  // animate skill bars in skills win
+  if(id==='skills'){setTimeout(()=>win.querySelectorAll('.sw-fl').forEach(b=>b.classList.add('go')),300)}
+}
+function closeWin(id,el){
+  el.style.transition='opacity .2s,transform .2s';el.style.opacity='0';el.style.transform='scale(.93)';
+  setTimeout(()=>{el.remove();delete openWins[id]},200);
+}
+function minWin(el){el.style.opacity=el.style.opacity==='0.2'?'1':'0.2';el.style.pointerEvents=el.style.pointerEvents==='none'?'auto':'none'}
+function maxWin(el){
+  if(el.dataset.mx==='1'){el.style.cssText=`left:${el.dataset.ox}px;top:${el.dataset.oy}px;width:${el.dataset.ow}px;z-index:${zTop}`;el.dataset.mx='0'}
+  else{el.dataset.ox=el.offsetLeft;el.dataset.oy=el.offsetTop;el.dataset.ow=el.offsetWidth;el.style.cssText=`left:0;top:0;width:calc(100% - 0px);z-index:${++zTop};`;el.dataset.mx='1'}
+}
+
+// DRAG
+let drag=null,dox=0,doy=0;
+function startDrag(e,win){drag=win;dox=e.clientX-win.offsetLeft;doy=e.clientY-win.offsetTop;win.style.zIndex=++zTop}
+document.addEventListener('mousemove',e=>{if(!drag)return;drag.style.left=(e.clientX-dox)+'px';drag.style.top=(e.clientY-doy)+'px'});
+document.addEventListener('mouseup',()=>drag=null);
+
+// TERMINAL COMMANDS
+const termCmds={
+  'whoami':'Sahil Ahmed · Pr0fessor SnApe · 0xCipher',
+  'ls':'fatah2/   shaheen3/   notes/',
+  'pwd':'/home/pr0fessor',
+  'uname -a':'Linux cipher-box 6.11.0-kali1 #1 SMP x86_64 GNU/Linux',
+  'date':new Date().toString(),
+  'cat links.txt':'LinkedIn: linkedin.com/in/sahil-ahmed-kamboh/\nGitHub: github.com/T-Slytherins\nHackerOne: hackerone.com/pr0fessor_snape\nBugcrowd: bugcrowd.com/Pr0FessoR_SnApe',
+  'clear':'__CLEAR__',
+  'help':'Available: whoami, ls, pwd, uname -a, date, cat links.txt, clear',
+};
+function termCmd(e){
+  if(e.key!=='Enter')return;
+  const inp=document.getElementById('t-in');
+  const out=document.getElementById('t-out');
+  if(!inp||!out)return;
+  const cmd=inp.value.trim();if(!cmd)return;
+  const reply=termCmds[cmd]||`bash: ${cmd}: command not found`;
+  if(reply==='__CLEAR__'){out.innerHTML='<div><span class="tp">pr0fessor@cipher:~$ </span><span class="term-cur"></span></div>'}
+  else{
+    const l1=document.createElement('div');l1.innerHTML=`<span class="tp">pr0fessor@cipher:~$ </span><span class="tc">${cmd}</span>`;
+    const l2=document.createElement('div');l2.innerHTML=`<span class="to">${reply.replace(/\n/g,'<br>')}</span>`;
+    const cur=out.lastElementChild;out.insertBefore(l1,cur);out.insertBefore(l2,cur);
+  }
+  inp.value='';out.scrollTop=out.scrollHeight;
+}
+
+// CONTACT FORM
+function handleSend(){
+  const btn=document.getElementById('send-btn');
+  const orig=btn.textContent;
+  btn.textContent='Sending...';btn.style.opacity='.7';
+  setTimeout(()=>{btn.textContent='✓ Message Sent!';btn.style.background='linear-gradient(135deg,#059669,#10b981)';
+    setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.opacity=''},3000)},1600);
+}
+</script>
+</body>
+</html>
